@@ -3,7 +3,7 @@
 A personal website built with **Astro**, static-first, deployed to **GitHub Pages**.
 Phase 1 (static multi-page site) is live. The full multi-phase roadmap — Keystatic CMS,
 custom domain + Cloudflare Pages, a client-side ML drawing game, an image-generation
-Worker endpoint, and commerce — lives in `website-plan-and-implementation-guide.md`.
+Worker endpoint, and commerce — lives in `notes/website-plan-and-implementation-guide.md`.
 **Read that plan before starting any new feature**, and follow its principles:
 
 - Static by default; add a JS island only where interactivity is actually needed.
