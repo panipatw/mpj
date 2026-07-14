@@ -1,0 +1,23 @@
+---
+// This runs at BUILD time (not in the browser), so the year is baked into the
+// HTML when the site is generated.
+const year = new Date().getFullYear();
+---
+
+<footer>
+	<p>&copy; {year} panipatw. Built with Astro.</p>
+</footer>
+
+<style>
+	footer {
+		margin-top: 3rem;
+		padding: 1.5rem 0;
+		border-top: 1px solid #e5e5e5;
+		color: #888;
+		font-size: 0.9rem;
+	}
+
+	p {
+		margin: 0;
+	}
+</style>

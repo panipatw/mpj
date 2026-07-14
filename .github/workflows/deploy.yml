@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+
+# When should this run?
+on:
+  # ...on every push to the `main` branch
+  push:
+    branches: [main]
+  # ...and also when you click "Run workflow" manually in the Actions tab
+  workflow_dispatch:
+
+# Permissions the job needs to publish to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # Job 1: build the site into static files
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository
+        uses: actions/checkout@v4
+      # The official Astro action installs Node, installs deps, runs the build,
+      # and uploads the `dist/` output as a Pages artifact — all in one step.
+      - name: Build with Astro
+        uses: withastro/action@v3
+        with:
+          # Astro 7 requires Node >=22.12; the action defaults to 20 otherwise.
+          node-version: 22
+
+  # Job 2: take the artifact from job 1 and deploy it
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

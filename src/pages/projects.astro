@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Same data-driven pattern as the nav: describe the cards as an array,
+// then loop to render them. Links are "#" placeholders until these are built.
+const projects = [
+	{
+		title: 'Drawing + Guessing Game',
+		blurb:
+			'Draw on a canvas and a machine-learning model running in your browser tries to guess what it is. Coming soon.',
+		href: '#',
+	},
+	{
+		title: 'Image Generator',
+		blurb:
+			'An experiment in generating images from a prompt. Coming soon.',
+		href: '#',
+	},
+];
+---
+
+<Layout title="Projects" description="Projects and experiments by panipatw.">
+	<h1>Projects</h1>
+	<p>A few things I'm building. More on the way.</p>
+
+	<div class="grid">
+		{
+			projects.map((project) => (
+				<article class="card">
+					<h2>{project.title}</h2>
+					<p>{project.blurb}</p>
+					<a href={project.href}>Learn more →</a>
+				</article>
+			))
+		}
+	</div>
+</Layout>
+
+<style>
+	.grid {
+		display: grid;
+		gap: 1.25rem;
+		margin-top: 1.5rem;
+	}
+
+	.card {
+		padding: 1.25rem 1.5rem;
+		border: 1px solid #e5e5e5;
+		border-radius: 12px;
+	}
+
+	.card h2 {
+		margin-top: 0;
+		font-size: 1.2rem;
+	}
+</style>

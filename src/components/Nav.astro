@@ -1,0 +1,63 @@
+---
+// The `base` is the sub-path the site lives under in production ("/mpj").
+// In dev it might come through as "/mpj/" — we strip any trailing slash so we
+// can build clean links ourselves below.
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Defining the nav as data (an array) instead of hand-writing four <a> tags
+// means we can loop over it. Add a page here later and the nav updates itself.
+const links = [
+	{ href: '/', label: 'Home' },
+	{ href: '/about', label: 'About' },
+	{ href: '/projects', label: 'Projects' },
+	{ href: '/contact', label: 'Contact' },
+];
+---
+
+<nav>
+	<a class="brand" href={base + '/'}>panipatw</a>
+	<ul>
+		{
+			links.map((link) => (
+				<li>
+					<a href={base + link.href}>{link.label}</a>
+				</li>
+			))
+		}
+	</ul>
+</nav>
+
+<style>
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 1rem 0;
+		border-bottom: 1px solid #e5e5e5;
+	}
+
+	.brand {
+		font-weight: 700;
+		font-size: 1.15rem;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	ul {
+		display: flex;
+		gap: 1.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	a {
+		text-decoration: none;
+		color: #444;
+	}
+
+	a:hover {
+		color: #000;
+	}
+</style>
