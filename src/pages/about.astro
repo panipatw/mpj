@@ -1,20 +1,124 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+// Content ported from the previous personal site (panipatw.github.io/info/).
+const education = [
+	{
+		degree: 'PhD in Mechanical Engineering',
+		school: 'Imperial College London',
+	},
+	{
+		degree: "Master's and Bachelor's degrees in Mechanical Engineering",
+		school: 'Chulalongkorn University, Thailand',
+	},
+];
+
+const publications = [
+	{
+		title:
+			'Gesture Recognition through Mechanomyogram Signals: An Adaptive Framework for Arm Posture Variability',
+		journal: 'IEEE Journal of Biomedical and Health Informatics',
+		year: 2025,
+		doi: 'https://doi.org/10.1109/JBHI.2024.3483428',
+	},
+	{
+		title:
+			'A Performance Study of a Wearable Balance Assistance Device Consisting of Scissored-Pair Control Moment Gyroscopes and a Two-Axis Inclination Sensor',
+		journal: 'Journal of Biomechanics',
+		year: 2020,
+		doi: 'https://doi.org/10.1016/j.jbiomech.2020.109957',
+	},
+	{
+		title: 'Design of Multi-Grip Patterns Prosthetic Hand With Single Actuator',
+		journal: 'IEEE Transactions on Neural Systems and Rehabilitation Engineering',
+		year: 2018,
+		doi: 'https://doi.org/10.1109/TNSRE.2018.2829152',
+	},
+];
 ---
 
-<Layout title="About" description="About panipatw.">
+<Layout
+	title="About"
+	description="Machine learning engineer with a background in mechanical engineering and biomechanics, focused on medical devices and healthcare applications."
+>
 	<section class="container page prose">
 		<h1>About</h1>
 		<p>
-			I'm Panipat. I like to build and explore things. Hopefully this could grow
-			into a fun and meaningful space someday.
+			Hi there, I'm Panipat! I work in applied machine learning, especially in
+			medical devices and healthcare applications.
 		</p>
-		<p>This is where I collect my projects and experiments.</p>
+		<p>
+			Currently, my main interest is ML for MedTech. I enjoy working across the
+			whole ML pipeline, from research (ML problem statement, data processing,
+			model development) through to deploying robust systems that people
+			actually rely on.
+		</p>
+
+		<h2>Background</h2>
+		<p>
+			I started out in mechanical engineering and biomechanics. During my
+			master's degree I developed mechanical prosthetics and hip implants, and
+			later, as a Research Engineer at Chulalongkorn University, I developed
+			Class III medical hip implants and led the research lab's ISO 13485
+			manufacturing certification. My PhD at Imperial College London focused
+			on hand gesture recognition, which is closely related to the prosthetic
+			hand research.
+		</p>
+		<p>
+			Today I'm an ML Engineer at SERG Technologies, working on Parkinson's
+			disease monitoring and medication management solutions. From the
+			regulatory side, I have hands-on experience developing Class III medical
+			devices, particularly building Quality Management Systems (QMS) to meet
+			regulatory standards.
+		</p>
+		<p>
+			Another skill I picked up along the way: I can program and run
+			industrial CNC manufacturing machines (lathes, 5-axis CNC machining,
+			etc.), which comes in handy for prototyping and physical product
+			development.
+		</p>
+
+		<h2>Education</h2>
+		<ul>
+			{
+				education.map((entry) => (
+					<li>
+						<strong>{entry.degree}</strong>, {entry.school}
+					</li>
+				))
+			}
+		</ul>
+
+		<h2>Selected publications</h2>
+		<ul>
+			{
+				publications.map((pub) => (
+					<li>
+						<a href={pub.doi}>{pub.title}</a>, <em>{pub.journal}</em>,{' '}
+						{pub.year}.
+					</li>
+				))
+			}
+		</ul>
 	</section>
 </Layout>
 
 <style>
 	.page {
 		padding: 4rem 1.5rem;
+	}
+
+	h2 {
+		margin-top: 2.5rem;
+	}
+
+	ul {
+		margin: 0;
+		padding-left: 1.2rem;
+		color: var(--text-muted);
+	}
+
+	li {
+		margin-bottom: 0.6rem;
 	}
 </style>

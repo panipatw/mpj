@@ -15,9 +15,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		<p class="eyebrow">The studio</p>
 		<h1>Pottery</h1>
 		<p class="lead prose">
-			A small collection of hand-thrown pieces. Everything here is a
-			placeholder for now — a preview of how the shop will look once real
-			products and photos arrive.
+			A small collection of hand-thrown pieces. Everything here is
+			created with love and care, and is meant to be used and enjoyed in your home.
 		</p>
 	</section>
 
@@ -32,19 +31,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 							style={`background: linear-gradient(135deg, ${product.from}, ${product.to})`}
 						/>
 						<div class="body">
-							<div class="row">
-								<h2>{product.name}</h2>
-								<span class="price">${product.price}</span>
-							</div>
+							<h2>{product.name}</h2>
 							<p>{product.blurb}</p>
-							<button
-								class="btn btn-primary add"
-								disabled
-								aria-disabled="true"
-								title="Checkout isn't available yet — this is a demo shop."
-							>
-								Add to cart
-							</button>
 						</div>
 					</article>
 				))
@@ -52,8 +40,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		</div>
 
 		<p class="note">
-			This is a demo shop — checkout isn't wired up yet. Real ordering will be
-			handled by a hosted payment provider in a later phase.
+			This is a demo shop, all items are fictional and for demonstration purposes only.
 		</p>
 	</section>
 </Layout>
@@ -117,14 +104,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		flex-direction: column;
 		gap: 0.6rem;
 		padding: 1.15rem 1.25rem 1.35rem;
-		flex: 1; /* keeps the button row aligned across cards of different text lengths */
-	}
-
-	.row {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.75rem;
 	}
 
 	.card h2 {
@@ -133,30 +112,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		letter-spacing: -0.01em;
 	}
 
-	.price {
-		color: var(--text);
-		font-weight: 600;
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-	}
-
 	.card p {
 		margin: 0;
 		font-size: 0.92rem;
-		flex: 1;
-	}
-
-	.add {
-		margin-top: 0.4rem;
-		justify-content: center;
-	}
-
-	/* Non-functional on purpose: dim it and switch the cursor so it's clearly
-	   not clickable yet. */
-	.add:disabled {
-		opacity: 0.55;
-		cursor: not-allowed;
-		transform: none;
 	}
 
 	.note {

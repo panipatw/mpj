@@ -9,15 +9,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 // pattern as the nav and the shop.
 const projects = [
 	{
-		title: 'Drawing + Guessing Game',
-		blurb:
-			'Draw on a canvas and a machine-learning model running in your browser guesses what it is.',
+		title: 'Image Generator',
+		blurb: 'An experiment in turning a text prompt into an image.',
 		tag: 'Coming soon',
 		href: base + '/projects',
 	},
 	{
-		title: 'Image Generator',
-		blurb: 'An experiment in turning a text prompt into an image.',
+		title: 'Drawing + Guessing Game',
+		blurb:
+			'Draw on a canvas and a machine-learning model running in your browser guesses what it is.',
 		tag: 'Coming soon',
 		href: base + '/projects',
 	},
@@ -27,13 +27,13 @@ const projects = [
 <Layout title="Home">
 	<!-- HERO ------------------------------------------------------------ -->
 	<section class="hero container">
-		<p class="eyebrow hero-in" style="--i: 0">Personal site & studio</p>
+		<p class="eyebrow hero-in" style="--i: 0">A personal site</p>
 		<h1 class="hero-in" style="--i: 1">
-			Hi, I'm <span class="accent">panipatw</span>.
+			Hi, This is <span class="accent">Panipat</span>
 		</h1>
 		<p class="lead hero-in" style="--i: 2">
-			I build and explore things on the web — interactive experiments, small
-			tools, and a little pottery on the side.
+			That minimal Jekyll site is nice and simple, but it's also fun to make a sleek, modern website with only LLMs and its harness.
+			This Astro site is built from scratch because using a template is such a 2025 thing now!!
 		</p>
 		<div class="cta hero-in" style="--i: 3">
 			<a class="btn btn-primary" href={base + '/projects'}>View projects</a>
@@ -64,7 +64,7 @@ const projects = [
 	<section class="container section reveal">
 		<div class="section-head">
 			<h2>From the studio</h2>
-			<a class="more" href={base + '/shop'}>Visit the shop →</a>
+			<a class="more" href={base + '/shop'}>See all products →</a>
 		</div>
 		<div class="grid grid-3">
 			{
@@ -76,7 +76,7 @@ const projects = [
 						/>
 						<div class="product-body">
 							<h3>{product.name}</h3>
-							<span class="price">${product.price}</span>
+							<p>{product.blurb}</p>
 						</div>
 					</a>
 				))
@@ -87,17 +87,17 @@ const projects = [
 	<!-- ABOUT BLURB ----------------------------------------------------- -->
 	<section class="container section reveal">
 		<div class="about-blurb">
-			<h2>A quick hello</h2>
+			<h2>What lives here</h2>
 			<p class="prose">
-				I'm Panipat. I like making things — code, experiments, and objects you
-				can hold. This site is where those live and grow over time.
+				This site records machine learning projects and experiments conducted
+				over time, including recent LLM applications and physics-based use
+				cases. I hope you enjoy them!
 			</p>
-			<a class="more" href={base + '/about'}>More about me →</a>
 		</div>
 	</section>
 
 	<!-- CONTACT / SOCIAL ------------------------------------------------ -->
-	<section class="container section reveal">
+	<!-- <section class="container section reveal">
 		<div class="contact">
 			<div>
 				<h2>Get in touch</h2>
@@ -108,7 +108,7 @@ const projects = [
 				<a class="btn" href="https://github.com/panipatw" rel="me">GitHub</a>
 			</div>
 		</div>
-	</section>
+	</section> -->
 </Layout>
 
 <style>
@@ -229,21 +229,12 @@ const projects = [
 	}
 
 	.product-body {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
 		padding: 1rem 1.15rem 1.15rem;
 	}
 
 	.product-body h3 {
-		margin: 0;
+		margin: 0 0 0.4rem;
 		font-size: 1rem;
-	}
-
-	.price {
-		color: var(--text-muted);
-		font-variant-numeric: tabular-nums;
 	}
 
 	/* ABOUT + CONTACT */

@@ -37,6 +37,10 @@ in `Layout.astro`; the hero uses `.hero-in`). All animation is gated behind
 Shared data (e.g. shop products in `src/data/products.ts`) lives in `src/data/` and is
 imported where used, so there is a single source of truth.
 
+**Never use em-dashes (—) in rendered site copy** (page text, product blurbs, headings).
+Rewrite with a comma, colon, relative clause, or conjunction instead. Code comments
+are exempt (they never render), and the `→` arrow in links is fine.
+
 ## Development
 
 Requires Node >=22.12. Start the dev server in background mode:

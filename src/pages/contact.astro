@@ -5,19 +5,33 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Contact" description="Get in touch with panipatw.">
 	<section class="container page prose">
 		<h1>Contact</h1>
-		<p>The best way to reach me right now is by email:</p>
+		<p>Please feel free to contact me at this address if you want to get in touch:</p>
 		<p>
 			<a href="mailto:panipat.blog498@silomails.com"
 				>panipat.blog498@silomails.com</a
 			>
 		</p>
-		<p class="note">A proper contact form will be added in a later phase.</p>
+		<p>You can also find me on:</p>
+		<div class="links">
+			<a class="btn" href="https://linkedin.com/in/panipatw" rel="me">
+				LinkedIn
+			</a>
+			<a class="btn" href="https://github.com/panipatw" rel="me">GitHub</a>
+		</div>
+		<!-- <p class="note">A proper contact form will be added in a later phase.</p> -->
 	</section>
 </Layout>
 
 <style>
 	.page {
 		padding: 4rem 1.5rem;
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin: 1rem 0 1.5rem;
 	}
 
 	.note {
