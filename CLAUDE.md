@@ -24,6 +24,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 (The `base` line is removed only if the site later moves to a custom domain at root — see plan Phase 3.)
 
+## Styling & conventions
+
+The site is **dark-only**. Colors, spacing, radius, and fonts are CSS custom properties
+(design tokens) defined once on `:root` in `src/layouts/Layout.astro`. **Use the tokens
+(`var(--bg)`, `var(--accent)`, …) — never hardcode colors** in components or pages.
+
+Motion goes through the `.reveal` class (fades/rises on scroll via the `IntersectionObserver`
+in `Layout.astro`; the hero uses `.hero-in`). All animation is gated behind
+`@media (prefers-reduced-motion: no-preference)` — keep new motion inside that guard.
+
+Shared data (e.g. shop products in `src/data/products.ts`) lives in `src/data/` and is
+imported where used, so there is a single source of truth.
+
 ## Development
 
 Requires Node >=22.12. Start the dev server in background mode:

@@ -3,17 +3,25 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Contact" description="Get in touch with panipatw.">
-	<h1>Contact</h1>
-	<p>The best way to reach me right now is by email:</p>
-	<p>
-		<a href="mailto:panipat.blog498@silomails.com">panipat.blog498@silomails.com</a>
-	</p>
-	<p class="note">A proper contact form will be added in a later phase.</p>
+	<section class="container page prose">
+		<h1>Contact</h1>
+		<p>The best way to reach me right now is by email:</p>
+		<p>
+			<a href="mailto:panipat.blog498@silomails.com"
+				>panipat.blog498@silomails.com</a
+			>
+		</p>
+		<p class="note">A proper contact form will be added in a later phase.</p>
+	</section>
 </Layout>
 
 <style>
+	.page {
+		padding: 4rem 1.5rem;
+	}
+
 	.note {
-		color: #888;
+		color: var(--text-muted);
 		font-size: 0.9rem;
 	}
 </style>

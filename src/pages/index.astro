@@ -1,28 +1,279 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { featuredProducts } from '../data/products';
+
+// Base path for internal links / assets (CLAUDE.md rule).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// A couple of featured projects, described as data and looped below — same
+// pattern as the nav and the shop.
+const projects = [
+	{
+		title: 'Drawing + Guessing Game',
+		blurb:
+			'Draw on a canvas and a machine-learning model running in your browser guesses what it is.',
+		tag: 'Coming soon',
+		href: base + '/projects',
+	},
+	{
+		title: 'Image Generator',
+		blurb: 'An experiment in turning a text prompt into an image.',
+		tag: 'Coming soon',
+		href: base + '/projects',
+	},
+];
 ---
 
 <Layout title="Home">
-	<section class="hero">
-		<h1>Hi, I'm panipatw 👋</h1>
-		<p class="lead">
-			Welcome to my corner of the web. This is where I share my projects and
-			a few experiments I'm working on.
+	<!-- HERO ------------------------------------------------------------ -->
+	<section class="hero container">
+		<p class="eyebrow hero-in" style="--i: 0">Personal site & studio</p>
+		<h1 class="hero-in" style="--i: 1">
+			Hi, I'm <span class="accent">panipatw</span>.
+		</h1>
+		<p class="lead hero-in" style="--i: 2">
+			I build and explore things on the web — interactive experiments, small
+			tools, and a little pottery on the side.
 		</p>
-		<p>
-			There's an interactive drawing game and more on the way — take a look
-			around.
-		</p>
+		<div class="cta hero-in" style="--i: 3">
+			<a class="btn btn-primary" href={base + '/projects'}>View projects</a>
+			<a class="btn" href={base + '/about'}>About me</a>
+		</div>
+	</section>
+
+	<!-- FEATURED PROJECTS ----------------------------------------------- -->
+	<section class="container section reveal">
+		<div class="section-head">
+			<h2>Projects</h2>
+			<a class="more" href={base + '/projects'}>All projects →</a>
+		</div>
+		<div class="grid grid-2">
+			{
+				projects.map((project) => (
+					<a class="card project" href={project.href}>
+						<span class="tag">{project.tag}</span>
+						<h3>{project.title}</h3>
+						<p>{project.blurb}</p>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- PRODUCTS TEASER ------------------------------------------------- -->
+	<section class="container section reveal">
+		<div class="section-head">
+			<h2>From the studio</h2>
+			<a class="more" href={base + '/shop'}>Visit the shop →</a>
+		</div>
+		<div class="grid grid-3">
+			{
+				featuredProducts.map((product) => (
+					<a class="card product" href={base + '/shop'}>
+						<span
+							class="thumb"
+							style={`background: linear-gradient(135deg, ${product.from}, ${product.to})`}
+						/>
+						<div class="product-body">
+							<h3>{product.name}</h3>
+							<span class="price">${product.price}</span>
+						</div>
+					</a>
+				))
+			}
+		</div>
+	</section>
+
+	<!-- ABOUT BLURB ----------------------------------------------------- -->
+	<section class="container section reveal">
+		<div class="about-blurb">
+			<h2>A quick hello</h2>
+			<p class="prose">
+				I'm Panipat. I like making things — code, experiments, and objects you
+				can hold. This site is where those live and grow over time.
+			</p>
+			<a class="more" href={base + '/about'}>More about me →</a>
+		</div>
+	</section>
+
+	<!-- CONTACT / SOCIAL ------------------------------------------------ -->
+	<section class="container section reveal">
+		<div class="contact">
+			<div>
+				<h2>Get in touch</h2>
+				<p>Questions, ideas, or just to say hi.</p>
+			</div>
+			<div class="links">
+				<a class="btn" href="mailto:panipat.blog498@silomails.com">Email</a>
+				<a class="btn" href="https://github.com/panipatw" rel="me">GitHub</a>
+			</div>
+		</div>
 	</section>
 </Layout>
 
 <style>
+	/* HERO */
 	.hero {
-		padding: 2rem 0;
+		padding: 5rem 1.5rem 3rem;
+		max-width: 820px;
+	}
+
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		margin: 0 0 1rem;
+	}
+
+	.accent {
+		color: var(--accent);
 	}
 
 	.lead {
 		font-size: 1.2rem;
-		color: #444;
+		max-width: 46ch;
+		margin: 0 0 2rem;
+	}
+
+	.cta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	/* SECTIONS */
+	.section {
+		padding: 2.5rem 1.5rem;
+	}
+
+	.section-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.more {
+		font-size: 0.95rem;
+		white-space: nowrap;
+	}
+
+	/* CARD GRID — `auto-fit` + `minmax` makes the columns responsive with no
+	   media queries: cards wrap to fewer columns as the screen narrows. */
+	.grid {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.grid-2 {
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	}
+
+	.grid-3 {
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+	}
+
+	.card {
+		display: block;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		color: var(--text);
+		overflow: hidden;
+		transition:
+			transform 0.25s var(--ease),
+			border-color 0.25s var(--ease),
+			background 0.25s var(--ease);
+	}
+
+	.card:hover {
+		transform: translateY(-4px);
+		border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+		background: var(--surface-2);
+	}
+
+	.project {
+		padding: 1.5rem;
+	}
+
+	.card h3 {
+		margin: 0.5rem 0 0.5rem;
+		font-size: 1.15rem;
+	}
+
+	.card p {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	.tag {
+		display: inline-block;
+		font-size: 0.72rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+		background: color-mix(in srgb, var(--accent) 14%, transparent);
+		padding: 0.2rem 0.6rem;
+		border-radius: 999px;
+	}
+
+	/* PRODUCT CARDS */
+	.thumb {
+		display: block;
+		aspect-ratio: 4 / 3;
+		width: 100%;
+	}
+
+	.product-body {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding: 1rem 1.15rem 1.15rem;
+	}
+
+	.product-body h3 {
+		margin: 0;
+		font-size: 1rem;
+	}
+
+	.price {
+		color: var(--text-muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* ABOUT + CONTACT */
+	.about-blurb p {
+		font-size: 1.1rem;
+		margin: 0 0 1rem;
+	}
+
+	.contact {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.25rem;
+		padding: 2rem;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+	}
+
+	.contact h2 {
+		margin: 0 0 0.25rem;
+	}
+
+	.contact p {
+		margin: 0;
+	}
+
+	.links {
+		display: flex;
+		gap: 0.75rem;
 	}
 </style>

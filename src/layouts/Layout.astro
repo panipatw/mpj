@@ -21,6 +21,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="dark" />
 		<link rel="icon" type="image/svg+xml" href={base + '/favicon.svg'} />
 		<meta name="generator" content={Astro.generator} />
 		<!-- These two lines change per page because they come from props -->
@@ -28,20 +29,49 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 		<meta name="description" content={description} />
 	</head>
 	<body>
-		<div class="container">
-			<Nav />
-			<main>
-				<!-- Each page's unique content gets injected right here -->
-				<slot />
-			</main>
-			<Footer />
-		</div>
+		<Nav />
+		<main>
+			<!-- Each page's unique content gets injected right here -->
+			<slot />
+		</main>
+		<Footer />
 	</body>
 </html>
 
 <!-- `is:global` opts this <style> out of scoping so it applies site-wide.
      Everything else we write stays scoped to its own component. -->
 <style is:global>
+	/* ---------------------------------------------------------------------
+	   DESIGN TOKENS
+	   These CSS custom properties are the single source of truth for the
+	   theme. Every component references them (e.g. `color: var(--text)`),
+	   so changing a value here restyles the whole site. Dark-only for now;
+	   a future light mode is just a second block of these variables.
+	   ------------------------------------------------------------------- */
+	:root {
+		--bg: #0b0b0c; /* near-black page background */
+		--surface: #141416; /* cards / raised blocks */
+		--surface-2: #1b1b1e; /* hover / nested surfaces */
+		--border: #26262a; /* hairline dividers */
+		--text: #f4f4f5; /* near-white primary text */
+		--text-muted: #a1a1a6; /* secondary copy */
+		--accent: #f4a261; /* light orange */
+		--accent-hover: #f6b17c;
+		--accent-contrast: #1a1200; /* dark text to sit ON the accent */
+
+		--radius: 14px;
+		--radius-sm: 10px;
+		--container: 1080px; /* wide landing width */
+		--text-width: 65ch; /* comfortable reading measure */
+
+		--font-sans:
+			ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+			Helvetica, Arial, sans-serif;
+
+		/* Shared transition + easing so motion feels consistent everywhere. */
+		--ease: cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
 	*,
 	*::before,
 	*::after {
@@ -49,36 +79,185 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 	}
 
 	html {
-		font-family:
-			system-ui,
-			-apple-system,
-			Segoe UI,
-			Roboto,
-			sans-serif;
+		font-family: var(--font-sans);
 		line-height: 1.6;
-		color: #1a1a1a;
+		color: var(--text);
+		background: var(--bg);
+		-webkit-font-smoothing: antialiased;
+		scroll-behavior: smooth;
 	}
 
 	body {
 		margin: 0;
-	}
-
-	.container {
-		max-width: 720px;
-		margin: 0 auto;
-		padding: 0 1.25rem;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		/* A soft radial glow in the top-left gives the flat dark page depth
+		   without any images. `fixed` keeps it put while the page scrolls. */
+		background:
+			radial-gradient(
+				60rem 40rem at 15% -10%,
+				rgba(244, 162, 97, 0.08),
+				transparent 60%
+			),
+			var(--bg);
+		background-attachment: fixed;
 	}
 
 	main {
-		min-height: 60vh;
+		flex: 1; /* push the footer to the bottom on short pages */
+	}
+
+	/* Centered width wrappers. `.container` for wide sections, `.prose` for
+	   text-heavy pages that should stay narrow and readable. */
+	.container {
+		width: 100%;
+		max-width: var(--container);
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.prose {
+		max-width: var(--text-width);
+	}
+
+	h1,
+	h2,
+	h3 {
+		line-height: 1.15;
+		letter-spacing: -0.02em;
+		font-weight: 700;
 	}
 
 	h1 {
-		font-size: 2rem;
-		margin: 2rem 0 1rem;
+		font-size: clamp(2.2rem, 6vw, 3.4rem); /* fluid: scales with viewport */
+		margin: 0 0 1rem;
+	}
+
+	h2 {
+		font-size: clamp(1.5rem, 3vw, 2rem);
+		margin: 0 0 0.75rem;
+	}
+
+	p {
+		color: var(--text-muted);
 	}
 
 	a {
-		color: #2563eb;
+		color: var(--accent);
+		text-decoration: none;
+		transition: color 0.2s var(--ease);
+	}
+
+	a:hover {
+		color: var(--accent-hover);
+	}
+
+	/* Reusable pill buttons, used by CTAs and cards. */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.7rem 1.3rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		font-weight: 600;
+		font-size: 0.95rem;
+		color: var(--text);
+		background: transparent;
+		cursor: pointer;
+		transition:
+			transform 0.2s var(--ease),
+			background 0.2s var(--ease),
+			border-color 0.2s var(--ease);
+	}
+
+	.btn:hover {
+		transform: translateY(-2px);
+		border-color: var(--text-muted);
+		color: var(--text);
+	}
+
+	.btn-primary {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--accent-contrast);
+	}
+
+	.btn-primary:hover {
+		background: var(--accent-hover);
+		border-color: var(--accent-hover);
+		color: var(--accent-contrast);
+	}
+
+	/* ---------------------------------------------------------------------
+	   MOTION
+	   `.reveal` elements start hidden + shifted down; the IntersectionObserver
+	   script below adds `.is-visible` when they scroll into view, animating
+	   them up. The `.hero-in` class animates immediately on page load.
+	   ALL of this lives inside `prefers-reduced-motion: no-preference`, so
+	   users who ask for reduced motion simply see everything, statically.
+	   ------------------------------------------------------------------- */
+	@media (prefers-reduced-motion: no-preference) {
+		.reveal {
+			opacity: 0;
+			transform: translateY(24px);
+			transition:
+				opacity 0.7s var(--ease),
+				transform 0.7s var(--ease);
+		}
+
+		.reveal.is-visible {
+			opacity: 1;
+			transform: none;
+		}
+
+		/* Optional stagger: set `style="--i: 2"` on an element to delay it. */
+		.reveal {
+			transition-delay: calc(var(--i, 0) * 80ms);
+		}
+
+		.hero-in {
+			opacity: 0;
+			transform: translateY(24px);
+			animation: hero-rise 0.9s var(--ease) forwards;
+			animation-delay: calc(var(--i, 0) * 90ms);
+		}
+
+		@keyframes hero-rise {
+			to {
+				opacity: 1;
+				transform: none;
+			}
+		}
 	}
 </style>
+
+<!-- Scroll-reveal island. This is the ONLY JavaScript on the page, and it's
+     genuinely needed: CSS alone can't tell when an element enters the viewport.
+     IntersectionObserver is the efficient, native way to watch for that. -->
+<script>
+	// Respect the user's motion preference: if they want reduced motion, we
+	// don't observe anything — the elements are already fully visible via CSS.
+	const wantsMotion = window.matchMedia(
+		'(prefers-reduced-motion: no-preference)',
+	).matches;
+
+	if (wantsMotion) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('is-visible');
+						observer.unobserve(entry.target); // reveal once, then stop watching
+					}
+				}
+			},
+			{ rootMargin: '0px 0px -10% 0px' }, // trigger a little before fully in view
+		);
+
+		for (const el of document.querySelectorAll('.reveal')) {
+			observer.observe(el);
+		}
+	}
+</script>

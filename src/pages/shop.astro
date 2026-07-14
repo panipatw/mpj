@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { products } from '../data/products';
+
+// Base path for internal links / assets (CLAUDE.md rule).
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Layout
+	title="Shop"
+	description="A small collection of fictional hand-made pottery."
+>
+	<!-- PAGE HEADER ----------------------------------------------------- -->
+	<section class="container head hero-in" style="--i: 0">
+		<p class="eyebrow">The studio</p>
+		<h1>Pottery</h1>
+		<p class="lead prose">
+			A small collection of hand-thrown pieces. Everything here is a
+			placeholder for now — a preview of how the shop will look once real
+			products and photos arrive.
+		</p>
+	</section>
+
+	<!-- PRODUCT GRID ---------------------------------------------------- -->
+	<section class="container section">
+		<div class="grid">
+			{
+				products.map((product, i) => (
+					<article class="card reveal" style={`--i: ${i % 4}`}>
+						<span
+							class="thumb"
+							style={`background: linear-gradient(135deg, ${product.from}, ${product.to})`}
+						/>
+						<div class="body">
+							<div class="row">
+								<h2>{product.name}</h2>
+								<span class="price">${product.price}</span>
+							</div>
+							<p>{product.blurb}</p>
+							<button
+								class="btn btn-primary add"
+								disabled
+								aria-disabled="true"
+								title="Checkout isn't available yet — this is a demo shop."
+							>
+								Add to cart
+							</button>
+						</div>
+					</article>
+				))
+			}
+		</div>
+
+		<p class="note">
+			This is a demo shop — checkout isn't wired up yet. Real ordering will be
+			handled by a hosted payment provider in a later phase.
+		</p>
+	</section>
+</Layout>
+
+<style>
+	.head {
+		padding: 4rem 1.5rem 1rem;
+	}
+
+	.eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.18em;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		margin: 0 0 0.75rem;
+	}
+
+	.lead {
+		font-size: 1.15rem;
+	}
+
+	.section {
+		padding: 2rem 1.5rem 3rem;
+	}
+
+	/* Responsive columns, no media queries — see the note in index.astro. */
+	.grid {
+		display: grid;
+		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	}
+
+	.card {
+		display: flex;
+		flex-direction: column;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		overflow: hidden;
+		transition:
+			transform 0.25s var(--ease),
+			border-color 0.25s var(--ease);
+	}
+
+	.card:hover {
+		transform: translateY(-4px);
+		border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+	}
+
+	/* `aspect-ratio` reserves the image's space before it loads, so the grid
+	   never jumps. The inner glow adds a hint of "product photo" depth. */
+	.thumb {
+		aspect-ratio: 4 / 3;
+		width: 100%;
+		box-shadow: inset 0 -60px 80px -40px rgba(0, 0, 0, 0.55);
+	}
+
+	.body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		padding: 1.15rem 1.25rem 1.35rem;
+		flex: 1; /* keeps the button row aligned across cards of different text lengths */
+	}
+
+	.row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+
+	.card h2 {
+		margin: 0;
+		font-size: 1.05rem;
+		letter-spacing: -0.01em;
+	}
+
+	.price {
+		color: var(--text);
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.card p {
+		margin: 0;
+		font-size: 0.92rem;
+		flex: 1;
+	}
+
+	.add {
+		margin-top: 0.4rem;
+		justify-content: center;
+	}
+
+	/* Non-functional on purpose: dim it and switch the cursor so it's clearly
+	   not clickable yet. */
+	.add:disabled {
+		opacity: 0.55;
+		cursor: not-allowed;
+		transform: none;
+	}
+
+	.note {
+		margin-top: 2rem;
+		text-align: center;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+	}
+</style>

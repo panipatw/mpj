@@ -1,63 +1,134 @@
 ---
 // The `base` is the sub-path the site lives under in production ("/mpj").
-// In dev it might come through as "/mpj/" — we strip any trailing slash so we
-// can build clean links ourselves below.
+// In dev it comes through as "/" — stripping the trailing slash lets us build
+// clean links ourselves below. (See CLAUDE.md: every internal link needs this.)
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Defining the nav as data (an array) instead of hand-writing four <a> tags
-// means we can loop over it. Add a page here later and the nav updates itself.
+// Nav defined as data so we can loop over it — add a page here and the nav
+// updates itself. This is the same data-driven pattern used across the site.
 const links = [
 	{ href: '/', label: 'Home' },
-	{ href: '/about', label: 'About' },
 	{ href: '/projects', label: 'Projects' },
+	{ href: '/shop', label: 'Shop' },
+	{ href: '/about', label: 'About' },
 	{ href: '/contact', label: 'Contact' },
 ];
+
+// Which link is the current page? `Astro.url.pathname` is the path being
+// rendered (e.g. "/mpj/shop" in prod). We normalise both sides — drop any
+// trailing slash, treat empty as "/" — so the comparison is exact.
+const norm = (p: string) => p.replace(/\/$/, '') || '/';
+const current = norm(Astro.url.pathname);
 ---
 
-<nav>
-	<a class="brand" href={base + '/'}>panipatw</a>
-	<ul>
-		{
-			links.map((link) => (
-				<li>
-					<a href={base + link.href}>{link.label}</a>
-				</li>
-			))
-		}
-	</ul>
-</nav>
+<header class="site-nav">
+	<div class="container bar">
+		<a class="brand" href={base + '/'}>panipatw</a>
+		<nav aria-label="Primary">
+			<ul>
+				{
+					links.map((link) => (
+						<li>
+							<a
+								href={base + link.href}
+								class:list={{ active: current === norm(base + link.href) }}
+								aria-current={
+									current === norm(base + link.href) ? 'page' : undefined
+								}
+							>
+								{link.label}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+</header>
 
 <style>
-	nav {
+	/* `position: sticky` keeps the bar pinned to the top as you scroll.
+	   The blur + translucent background is the "frosted glass" effect that
+	   makes content scrolling underneath feel layered and modern. */
+	.site-nav {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background: color-mix(in srgb, var(--bg) 72%, transparent);
+		backdrop-filter: saturate(180%) blur(12px);
+		-webkit-backdrop-filter: saturate(180%) blur(12px);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.bar {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 1rem;
-		padding: 1rem 0;
-		border-bottom: 1px solid #e5e5e5;
+		height: 64px;
 	}
 
 	.brand {
 		font-weight: 700;
-		font-size: 1.15rem;
-		text-decoration: none;
-		color: inherit;
+		font-size: 1.1rem;
+		letter-spacing: -0.02em;
+		color: var(--text);
+	}
+
+	.brand:hover {
+		color: var(--text);
 	}
 
 	ul {
 		display: flex;
-		gap: 1.25rem;
+		align-items: center;
+		gap: 0.35rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	a {
-		text-decoration: none;
-		color: #444;
+	nav a {
+		display: inline-block;
+		padding: 0.4rem 0.75rem;
+		border-radius: 999px;
+		font-size: 0.95rem;
+		color: var(--text-muted);
+		transition:
+			color 0.2s var(--ease),
+			background 0.2s var(--ease);
 	}
 
-	a:hover {
-		color: #000;
+	nav a:hover {
+		color: var(--text);
+		background: var(--surface-2);
+	}
+
+	/* The current page gets the accent colour so visitors always know where
+	   they are. `aria-current="page"` (set above) conveys the same to
+	   screen readers. */
+	nav a.active {
+		color: var(--accent);
+	}
+
+	/* On narrow screens the brand stacks above a wrapping row of links. */
+	@media (max-width: 560px) {
+		.bar {
+			height: auto;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+			padding-top: 0.75rem;
+			padding-bottom: 0.75rem;
+		}
+
+		nav ul {
+			flex-wrap: wrap;
+		}
+
+		nav a {
+			padding-left: 0.6rem;
+			padding-right: 0.6rem;
+		}
 	}
 </style>
