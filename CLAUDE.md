@@ -52,6 +52,11 @@ astro dev --background
 Manage it with `astro dev stop`, `astro dev status`, and `astro dev logs`.
 Before deploying, verify the built output: `npm run build && npm run preview`.
 
+## Commits
+
+- Commit message body: clear, concise bullet points — never paragraphs.
+- No `Co-Authored-By: Claude` (or any AI co-author) trailer, in any commit.
+
 ## Deploy
 
 Push to `main` → GitHub Actions (`.github/workflows/deploy.yml`) builds and publishes
