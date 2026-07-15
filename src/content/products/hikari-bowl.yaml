@@ -1,0 +1,9 @@
+name: Hikari Stoneware Bowl
+price: 48
+blurb: Hand-thrown stoneware with a soft matte glaze that catches the light.
+image: ../../assets/shop/hikari-bowl.png
+alt: Stoneware bowl with a glaze fading from warm amber at the rim to deep brown at the foot.
+featured: true
+order: 1
+from: '#c98a5e'
+to: '#6f4a34'

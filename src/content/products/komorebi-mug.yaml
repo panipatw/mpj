@@ -1,0 +1,9 @@
+name: Komorebi Speckled Mug
+price: 32
+blurb: A generous mug flecked with iron speckle, glazed to a warm oatmeal.
+image: ../../assets/shop/komorebi-mug.png
+alt: Speckled oatmeal-glazed mug with a rounded body and looped handle.
+featured: true
+order: 2
+from: '#d8b48a'
+to: '#8a6b4a'

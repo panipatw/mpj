@@ -1,7 +1,13 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { featuredProducts } from '../data/products';
+
+// CMS-managed products (see src/content.config.ts), filtered to the ones
+// flagged "featured" in Keystatic and sorted for a stable display order.
+const featuredProducts = (
+	await getCollection('products', ({ data }) => data.featured)
+).sort((a, b) => a.data.order - b.data.order);
 
 // Base path for internal links / assets (CLAUDE.md rule).
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -69,13 +75,13 @@ const projects = [
 		</div>
 		<div class="grid grid-3">
 			{
-				featuredProducts.map((product) => (
+				featuredProducts.map(({ data: product }) => (
 					<a class="card product" href={base + '/shop'}>
 						{product.image ? (
 							<Image
 								class="thumb"
 								src={product.image}
-								alt={product.alt ?? product.name}
+								alt={product.alt || product.name}
 								widths={[320, 640, 960]}
 								sizes="(max-width: 560px) 92vw, 320px"
 							/>

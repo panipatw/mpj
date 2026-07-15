@@ -1,7 +1,13 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { products } from '../data/products';
+
+// Products are CMS-managed content (edited via /keystatic, stored as YAML in
+// src/content/products/). Files have no inherent order, so sort explicitly.
+const products = (await getCollection('products')).sort(
+	(a, b) => a.data.order - b.data.order,
+);
 
 // Base path for internal links / assets (CLAUDE.md rule).
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -25,13 +31,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 	<section class="container section">
 		<div class="grid">
 			{
-				products.map((product, i) => (
+				products.map(({ data: product }, i) => (
 					<article class="card reveal" style={`--i: ${i % 4}`}>
 						{product.image ? (
 							<Image
 								class="thumb"
 								src={product.image}
-								alt={product.alt ?? product.name}
+								alt={product.alt || product.name}
 								widths={[320, 640, 960]}
 								sizes="(max-width: 560px) 92vw, 320px"
 							/>
