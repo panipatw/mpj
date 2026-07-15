@@ -3,9 +3,12 @@
 // Both the landing-page teaser and the full /shop page import from here, so
 // there's ONE source of truth — edit a price once and it updates everywhere.
 //
-// `from`/`to` are the two colours of the CSS gradient we use as a placeholder
-// "photo" for each piece (no image files yet — see the plan). When real photos
-// exist, swap the gradient thumbnail for an <img> and these can go away.
+// Product photos live in src/assets/shop/ (named after the slug) so Astro's
+// image pipeline optimises them at build time. Pieces without a photo yet fall
+// back to a CSS gradient placeholder built from `from`/`to`.
+
+import hikariBowl from '../assets/shop/hikari-bowl.png';
+import komorebiMug from '../assets/shop/komorebi-mug.png';
 
 export interface Product {
 	slug: string;
@@ -14,6 +17,8 @@ export interface Product {
 	blurb: string;
 	from: string; // gradient start colour
 	to: string; // gradient end colour
+	image?: ImageMetadata; // real product photo; gradient is the fallback
+	alt?: string; // describes the photo for screen readers
 	featured?: boolean; // shown in the landing-page teaser
 }
 
@@ -25,6 +30,8 @@ export const products: Product[] = [
 		blurb: 'Hand-thrown stoneware with a soft matte glaze that catches the light.',
 		from: '#c98a5e',
 		to: '#6f4a34',
+		image: hikariBowl,
+		alt: 'Stoneware bowl with a glaze fading from warm amber at the rim to deep brown at the foot.',
 		featured: true,
 	},
 	{
@@ -34,6 +41,8 @@ export const products: Product[] = [
 		blurb: 'A generous mug flecked with iron speckle, glazed to a warm oatmeal.',
 		from: '#d8b48a',
 		to: '#8a6b4a',
+		image: komorebiMug,
+		alt: 'Speckled oatmeal-glazed mug with a rounded body and looped handle.',
 		featured: true,
 	},
 	{
