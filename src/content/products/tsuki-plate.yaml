@@ -1,6 +1,8 @@
 name: Tsuki Serving Plate
 price: 56
 blurb: A wide plate in an ocean-blue glaze that breaks to a foamy pale rim.
+image: ../../assets/shop/tsuki-plate.png
+alt: Wide serving plate glazed deep ocean blue in the well, breaking to a foamy pale rim.
 featured: false
 order: 4
 from: '#bcdfe8'
